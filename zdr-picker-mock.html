@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model picker — ZDR shields mock</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d0d14;
+    font-family: Roboto, "Segoe UI", system-ui, sans-serif;
+    display: flex; justify-content: center;
+    min-height: 100vh; color: #e6e0e9;
+  }
+  .sheet {
+    width: 412px; margin-top: 40px; height: fit-content;
+    background: #1c1b1f;
+    border-radius: 28px 28px 0 0;
+    padding: 12px 0 32px;
+  }
+  .handle { width: 32px; height: 4px; border-radius: 2px; background: #49454f; margin: 4px auto 12px; }
+  h1 { font-size: 20px; font-weight: 500; padding: 4px 20px; }
+  .search {
+    margin: 8px 16px; padding: 12px 16px;
+    border: 1px solid #938f99; border-radius: 14px; color: #938f99; font-size: 16px;
+  }
+  .counts {
+    display: flex; align-items: center;
+    padding: 2px 16px; font-size: 12px; color: #cac4d0;
+  }
+  .counts .spacer { flex: 1; }
+  .chip {
+    color: #d0bcff; font-size: 14px; font-weight: 500; padding: 8px 12px;
+  }
+  .legend {
+    display: flex; gap: 16px; align-items: center;
+    padding: 2px 16px 4px; font-size: 12px; color: #cac4d0;
+  }
+  .legend span { display: flex; gap: 4px; align-items: center; }
+  svg { flex: none; }
+  .row {
+    display: flex; align-items: center;
+    padding: 12px 16px; gap: 0;
+  }
+  .row .name { flex: 1; font-size: 16px; }
+  .row.selected .name { color: #d0bcff; }
+  .badge { margin-right: 6px; display: flex; }
+  .heart { color: #d0bcff; font-size: 20px; margin-left: 4px; }
+  .heart.off { color: #938f99; }
+  .pin { color: #d0bcff; font-size: 14px; margin-right: 10px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="handle"></div>
+  <h1>Choose a model</h1>
+  <div class="search">Search</div>
+  <div class="counts">
+    <div>128 models · 86 ZDR · 9 train</div>
+    <div class="spacer"></div>
+    <div class="chip">FREE</div>
+    <div class="chip">ZDR ✓</div>
+  </div>
+  <div class="legend">
+    <span>
+      <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12V5l-9,-4z" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linejoin="round"/><path d="M8,12.5l3,3l5.5,-6" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ZDR endpoint available
+    </span>
+    <span>
+      <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12V5l-9,-4z" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5,9.5l5,5 M14.5,9.5l-5,5" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linecap="round"/></svg>
+      May train on prompts
+    </span>
+  </div>
+  <div class="row selected">
+    <div class="pin">★</div>
+    <div class="name">anthropic/claude-sonnet-4.6</div>
+    <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12V5l-9,-4z" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linejoin="round"/><path d="M8,12.5l3,3l5.5,-6" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="heart">♥</div>
+  </div>
+  <div class="row">
+    <div class="name">deepseek/deepseek-v4</div>
+    <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12V5l-9,-4z" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5,9.5l5,5 M14.5,9.5l-5,5" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+    <div class="heart off">♡</div>
+  </div>
+  <div class="row">
+    <div class="name">google/gemini-3-flash-preview</div>
+    <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12V5l-9,-4z" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linejoin="round"/><path d="M8,12.5l3,3l5.5,-6" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="heart off">♡</div>
+  </div>
+  <div class="row">
+    <div class="name">mistralai/mistral-large-2411</div>
+    <div class="heart off">♡</div>
+  </div>
+  <div class="row">
+    <div class="name">openai/gpt-5-mini</div>
+    <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12V5l-9,-4z" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linejoin="round"/><path d="M8,12.5l3,3l5.5,-6" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="heart off">♡</div>
+  </div>
+  <div class="row">
+    <div class="name">x-ai/grok-4.6</div>
+    <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12V5l-9,-4z" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linejoin="round"/><path d="M8,12.5l3,3l5.5,-6" fill="none" stroke="#cac4d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="heart off">♡</div>
+  </div>
+</div>
+</body>
+</html>

@@ -167,7 +167,7 @@ fun SettingsScreen(vm: ChatViewModel, onBack: () -> Unit) {
                         Text(if (vm.apiKey.isBlank()) "Save key" else "Update key")
                     }
                     Text(
-                        "Keys are stored per-provider: Zen, Go and OpenRouter each keep their own key.",
+                        "Keys are stored per-provider: OpenCode Zen, OpenCode Go and OpenRouter each keep their own key.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

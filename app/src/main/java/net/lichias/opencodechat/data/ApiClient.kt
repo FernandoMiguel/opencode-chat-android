@@ -267,19 +267,25 @@ object ApiClient {
     }
 
     fun privacyForZen(modelId: String): Privacy {
-        if (modelId in ZEN_TRAINS) return Privacy.TRAINS
+        val id = modelId.lowercase()
+        // Contributor tier exists to train on prompts, at any version.
+        if ("contributor" in id || modelId in ZEN_TRAINS) return Privacy.TRAINS
         // OpenAI/Anthropic-served Zen requests are retained 30 days for abuse
         // monitoring (no training) — not ZDR, so no badge either way.
-        val id = modelId.lowercase()
         if (id.startsWith("gpt-") || id.startsWith("claude-")) return Privacy.UNKNOWN
+        // Fail closed: the free-tier list in models.dev has grown past the
+        // docs privacy exceptions, so an unlisted -free model gets no badge
+        // rather than a shield we cannot vouch for.
+        if (id.endsWith("-free") || ":free" in id) return Privacy.UNKNOWN
         return Privacy.ZDR
     }
 
     fun privacyForGo(modelId: String): Privacy {
-        if (modelId in GO_TRAINS) return Privacy.TRAINS
-        // Grok 4.7/4.6 + GPT 5.6 Luna: 30-day abuse retention, no training.
         val id = modelId.lowercase()
+        if ("contributor" in id || modelId in GO_TRAINS) return Privacy.TRAINS
+        // Grok 4.7/4.6 + GPT 5.6 Luna: 30-day abuse retention, no training.
         if (id.startsWith("grok-") || id == "gpt-5.6-luna") return Privacy.UNKNOWN
+        if (id.endsWith("-free") || ":free" in id) return Privacy.UNKNOWN
         return Privacy.ZDR
     }
 

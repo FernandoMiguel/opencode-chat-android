@@ -76,16 +76,29 @@ class ChatViewModel(private val store: Store) : ViewModel() {
 
     fun orderedModels(unfiltered: Boolean = false): List<String> {
         val base = models.ifEmpty { Store.DEFAULT_MODELS }
-        var effective = if (!unfiltered && showFreeOnly) base.filter { isFree(it) } else base
-        if (!unfiltered && showZdrOnly) {
-            val zdr = effective.filter { privacyOf(it) == Privacy.ZDR }
-            // Like the free filter, never strand the user with zero options:
-            // fall back when nothing matches.
-            if (zdr.isNotEmpty()) effective = zdr
+        if (unfiltered) return pinSort(base)
+        var effective = base
+        if (showFreeOnly) {
+            // If the free filter empties the list, fall back to the full list
+            // so the picker never strands the user with zero options.
+            effective.filter { isFree(it) }.takeIf { it.isNotEmpty() }?.let { effective = it }
         }
-        // If the free filter empties the list, fall back to the full list so the
-        // picker never strands the user with zero options.
-        if (!unfiltered && showFreeOnly && effective.isEmpty()) effective = base
+        if (showZdrOnly) {
+            val zdr = effective.filter { privacyOf(it) == Privacy.ZDR }
+            if (zdr.isNotEmpty()) {
+                effective = zdr
+            } else if (effective.any { privacyOf(it) != Privacy.UNKNOWN }) {
+                // Privacy signals exist and nothing matches: report empty
+                // honestly instead of silently dropping the filter.
+                effective = emptyList()
+            }
+            // Else no privacy data at all (offline/unknown catalog) — leave
+            // the list unfiltered so the picker is never bricked.
+        }
+        return pinSort(effective)
+    }
+
+    private fun pinSort(effective: List<String>): List<String> {
         val pinned = favorites.filter { it in effective }
         return pinned + effective.filter { it !in favorites }.sorted()
     }

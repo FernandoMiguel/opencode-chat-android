@@ -13,8 +13,8 @@ enum class Provider(
     val catalogKey: String,
     val needsApiKey: Boolean,
 ) {
-    ZEN("Zen", "https://opencode.ai/zen/v1", "opencode", needsApiKey = true),
-    GO("Go", "https://opencode.ai/zen/go/v1", "opencode-go", needsApiKey = true),
+    ZEN("OpenCode Zen", "https://opencode.ai/zen/v1", "opencode", needsApiKey = true),
+    GO("OpenCode Go", "https://opencode.ai/zen/go/v1", "opencode-go", needsApiKey = true),
     OPENROUTER("OpenRouter", "https://openrouter.ai/api/v1", "openrouter", needsApiKey = true);
 }
 
