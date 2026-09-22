@@ -1,0 +1,10 @@
+# AGENTS.md — opencode-chat (GitHub: FernandoMiguel/opencode-chat-android, branch `main`)
+
+Single-module Android app. AGP 8.7.3, Kotlin 2.0.21, compile/targetSdk 35, minSdk 34. No tests, no CI, no lint. `gh` is authed as FernandoMiguel.
+
+- Flow: `Store` (SharedPreferences + `KeyVault` AES-GCM) → `ChatViewModel` (all UI state) → `ChatScreen` / `SettingsScreen`. Network is raw `HttpURLConnection` in `app/src/main/java/net/lichias/opencodechat/data/ApiClient.kt` — no Retrofit/OkHttp.
+- Models = live `<base>/models` merged over models.dev catalog (`opencode`, `opencode-go`, `openrouter` keys). Live IDs missing from the catalog get `Privacy.UNKNOWN` (no badge).
+- Verify with (keep `--offline`): `./gradlew :app:compileDebugKotlin --offline --rerun-tasks`, then `./gradlew :app:assembleDebug --offline --rerun-tasks`. Compile success alone is not enough: `compileDebugKotlin` can pass while the APK at `app/build/outputs/apk/debug/app-debug.apk` is stale — only `assembleDebug` refreshes it (caught once via user install).
+- No `material-icons-extended` dependency. New icons must be vector drawables under `app/src/main/res/drawable/` in the `ic_dropdown.xml` pattern (black fill/stroke, tint at the `Icon()` call site).
+- Privacy badges are fail-closed by design, keep them that way: unknown `-free`/`:free` IDs → `UNKNOWN`; any ID containing `contributor` → `TRAINS`; OpenRouter ZDR is per-endpoint so the shield means "ZDR endpoint exists", and only the ZDR-only toggle (which sends `provider: {zdr: true, data_collection: "deny"}`) guarantees routing. The Zen/Go trains lists are hardcoded from docs and drift — re-verify badge counts against `https://openrouter.ai/api/v1/endpoints/zdr`, `.../api/frontend/v1/all-providers`, and `https://models.dev/api.json` when touching `privacyFor*`.
+- Release flow: commit + push `main`, tag `vX.Y.Z`, then `cp` the APK to `opencode-chat-vX.Y.Z.apk` and `gh release create` with it (debug-signed preview — say so in the notes). `build/` and `local.properties` are git-ignored; the APK ships as a release asset only.
